@@ -1,7 +1,7 @@
 {
   "name": "@salespark/secure-config",
   "version": "1.0.0",
-  "description": "Encrypted runtime config loader for Node.js",
+  "description": "Secure encrypted configuration loader for Node.js that replaces .env files with a single master key and runtime decryption",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "commonjs",
