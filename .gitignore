@@ -1,0 +1,12 @@
+node_modules
+dist
+*.log
+*.tsbuildinfo
+coverage
+.env*
+.DS_Store
+.github/agents/
+.vscode/
+AGENT.md
+PROMPT.md
+CONSTRAINTS.md
