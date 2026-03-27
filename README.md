@@ -59,7 +59,7 @@ config.enc.json
 And only provide:
 
 ```bash
-MASTER_KEY=your_master_key
+MASTER_KEY=REPLACE_WITH_YOUR_MASTER_KEY
 ```
 
 ---
@@ -87,25 +87,25 @@ Create a temporary `config.json`:
 ### 2) Encrypt config
 
 ```bash
-MASTER_KEY=your_master_key secure-config encrypt config.json config.enc.json
+MASTER_KEY=REPLACE_WITH_YOUR_MASTER_KEY secure-config encrypt config.json config.enc.json
 ```
 
 No install (npx):
 
 ```bash
-MASTER_KEY=your_master_key npx @salespark/secure-config encrypt config.json config.enc.json
+MASTER_KEY=REPLACE_WITH_YOUR_MASTER_KEY npx @salespark/secure-config encrypt config.json config.enc.json
 ```
 
 To encrypt a `.env` file:
 
 ```bash
-MASTER_KEY=your_master_key secure-config encrypt-env .env config.enc.json
+MASTER_KEY=REPLACE_WITH_YOUR_MASTER_KEY secure-config encrypt-env .env config.enc.json
 ```
 
 No install (npx):
 
 ```bash
-MASTER_KEY=your_master_key npx @salespark/secure-config encrypt-env .env config.enc.json
+MASTER_KEY=REPLACE_WITH_YOUR_MASTER_KEY npx @salespark/secure-config encrypt-env .env config.enc.json
 ```
 
 This will generate:
@@ -173,11 +173,11 @@ Options:
   --env        Prefix output with an environment name
 
 Examples:
-  MASTER_KEY=your_key secure-config encrypt config.json config.enc.json
+  MASTER_KEY=REPLACE_WITH_YOUR_MASTER_KEY secure-config encrypt config.json config.enc.json
   yarn dlx secure-config encrypt config.json
-  MASTER_KEY=your_key secure-config encrypt-env .env config.enc.json
-  MASTER_KEY=your_key secure-config encrypt config.json config.enc.json --schema schema.json
-  MASTER_KEY=your_key secure-config encrypt config.json --env dev
+  MASTER_KEY=REPLACE_WITH_YOUR_MASTER_KEY secure-config encrypt-env .env config.enc.json
+  MASTER_KEY=REPLACE_WITH_YOUR_MASTER_KEY secure-config encrypt config.json config.enc.json --schema schema.json
+  MASTER_KEY=REPLACE_WITH_YOUR_MASTER_KEY secure-config encrypt config.json --env dev
 ```
 
 ---
@@ -193,7 +193,7 @@ You can provide a schema file to require fields during encryption:
 CLI example:
 
 ```bash
-MASTER_KEY=your_key secure-config encrypt config.json config.enc.json --schema schema.json
+MASTER_KEY=REPLACE_WITH_YOUR_MASTER_KEY secure-config encrypt config.json config.enc.json --schema schema.json
 ```
 
 You can also pass schema in code:

@@ -36,6 +36,15 @@ const orange = colorEnabled ? "\x1b[38;5;208m" : "";
 const red = colorEnabled ? "\x1b[31m" : "";
 const reset = colorEnabled ? "\x1b[0m" : "";
 
+const disallowedMasterKeys = new Set(["your_key", "your_master_key", "REPLACE_WITH_YOUR_MASTER_KEY"]);
+const isExampleMasterKey = (value?: string): boolean => {
+  if (!value) {
+    return false;
+  }
+
+  return disallowedMasterKeys.has(value.trim());
+};
+
 /******************************************************************
  * ##: Generate package label from package.json metadata
  * Reads package.json and builds a label with name and version.
@@ -181,6 +190,21 @@ export const parseSchemaSafe = (raw: string): SalesParkContract<SchemaField[]> =
 const packageLabel = getPackageLabel();
 
 /******************************************************************
+ * ##: Print CLI banner
+ * Displays the CLI header with package label.
+ * @returns {void} - Prints banner to console
+ * History:
+ * 27-03-2026: Created
+ ******************************************************************/
+const printBanner = () => {
+  console.log("==================================================");
+  console.log(`${purpleBold}SalesPark Secure Config CLI${reset}`);
+  console.log(`${darkGray}${packageLabel}${reset}`);
+  console.log("==================================================");
+  console.log("");
+};
+
+/******************************************************************
  * ##: Print CLI help information
  * Displays usage, commands, options, and examples with ANSI colors.
  * @returns {void} - Prints help to console
@@ -188,11 +212,7 @@ const packageLabel = getPackageLabel();
  * 27-03-2026: Created
  ******************************************************************/
 const printHelp = () => {
-  console.log("==================================================");
-  console.log(`${purpleBold}SalesPark Secure Config CLI${reset}`);
-  console.log(`${darkGray}${packageLabel}${reset}`);
-  console.log("==================================================");
-  console.log("");
+  printBanner();
   console.log(`${orange}Usage:${reset}`);
   console.log("  secure-config encrypt <input.json> [output.enc.json] [--schema schema.json]");
   console.log("  secure-config encrypt-env <input.env> [output.enc.json] [--schema schema.json]");
@@ -209,11 +229,11 @@ const printHelp = () => {
   console.log("  --env        Prefix output with an environment name");
   console.log("");
   console.log(`${orange}Examples:${reset}`);
-  console.log("  MASTER_KEY=your_key secure-config encrypt config.json config.enc.json");
+  console.log("  MASTER_KEY=YOUR_MASTER_KEY secure-config encrypt config.json config.enc.json");
   console.log("  yarn dlx secure-config encrypt config.json");
-  console.log("  MASTER_KEY=your_key secure-config encrypt-env .env config.enc.json");
-  console.log("  MASTER_KEY=your_key secure-config encrypt config.json config.enc.json --schema schema.json");
-  console.log("  MASTER_KEY=your_key secure-config encrypt config.json --env dev");
+  console.log("  MASTER_KEY=YOUR_MASTER_KEY secure-config encrypt-env .env config.enc.json");
+  console.log("  MASTER_KEY=YOUR_MASTER_KEY secure-config encrypt config.json config.enc.json --schema schema.json");
+  console.log("  MASTER_KEY=YOUR_MASTER_KEY secure-config encrypt config.json --env dev");
 };
 
 /******************************************************************
@@ -224,6 +244,7 @@ const printHelp = () => {
  * 27-03-2026: Created
  ******************************************************************/
 const runCli = () => {
+  printBanner();
   if (!command || command === "-h" || command === "--help" || command === "help") {
     printHelp();
     process.exit(command ? 0 : 1);
@@ -265,6 +286,11 @@ const runCli = () => {
 
     if (!masterKey) {
       console.error(`${red}Missing MASTER_KEY${reset}`);
+      process.exit(1);
+    }
+
+    if (isExampleMasterKey(masterKey)) {
+      console.error(`${red}MASTER_KEY looks like an example placeholder. Set a real key.${reset}`);
       process.exit(1);
     }
 
@@ -362,6 +388,11 @@ const runCli = () => {
 
     if (!masterKey) {
       console.error(`${red}Missing MASTER_KEY${reset}`);
+      process.exit(1);
+    }
+
+    if (isExampleMasterKey(masterKey)) {
+      console.error(`${red}MASTER_KEY looks like an example placeholder. Set a real key.${reset}`);
       process.exit(1);
     }
 
