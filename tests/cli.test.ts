@@ -49,6 +49,9 @@ describe("cli helpers", () => {
     expect(resolveOutputPath("   ")).toBe("./config.enc.json");
     expect(resolveOutputPath(undefined, "dev")).toBe("./dev.config.enc.json");
     expect(resolveOutputPath("", "prod")).toBe("./prod.config.enc.json");
+    expect(resolveOutputPath("config.enc.json", "dev")).toBe("config.enc.json");
+    expect(resolveOutputPath("./config.enc.json", "dev")).toBe("./config.enc.json");
+    expect(resolveOutputPath("configs/config.enc.json", "dev")).toBe("configs/config.enc.json");
     expect(resolveOutputPath("out.enc.json")).toBe("out.enc.json");
     expect(resolveOutputPath("  out.enc.json  ")).toBe("out.enc.json");
   });

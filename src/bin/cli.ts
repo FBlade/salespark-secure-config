@@ -211,8 +211,10 @@ const printBanner = () => {
  * History:
  * 27-03-2026: Created
  ******************************************************************/
-const printHelp = () => {
-  printBanner();
+const printHelp = (includeBanner = true) => {
+  if (includeBanner) {
+    printBanner();
+  }
   console.log(`${orange}Usage:${reset}`);
   console.log("  secure-config encrypt <input.json> [output.enc.json] [--schema schema.json]");
   console.log("  secure-config encrypt-env <input.env> [output.enc.json] [--schema schema.json]");
@@ -234,6 +236,8 @@ const printHelp = () => {
   console.log("  MASTER_KEY=YOUR_MASTER_KEY secure-config encrypt-env .env config.enc.json");
   console.log("  MASTER_KEY=YOUR_MASTER_KEY secure-config encrypt config.json config.enc.json --schema schema.json");
   console.log("  MASTER_KEY=YOUR_MASTER_KEY secure-config encrypt config.json --env dev");
+  console.log("  MASTER_KEY=YOUR_MASTER_KEY secure-config encrypt config.json config.enc.json --env dev");
+  console.log(`${darkGray}  Note: --env is ignored when output file is provided.${reset}`);
 };
 
 /******************************************************************
@@ -244,15 +248,16 @@ const printHelp = () => {
  * 27-03-2026: Created
  ******************************************************************/
 const runCli = () => {
-  printBanner();
   if (!command || command === "-h" || command === "--help" || command === "help") {
     printHelp();
     process.exit(command ? 0 : 1);
   }
 
+  printBanner();
+
   if (envFlagIndex >= 0 && !envName) {
     console.error(`${red}Missing environment name${reset}`);
-    printHelp();
+    printHelp(false);
     process.exit(1);
   }
 
@@ -268,17 +273,20 @@ const runCli = () => {
   if (command === "encrypt") {
     handled = true;
     const inputPath = args[1];
+    if (args[2] && envName) {
+      console.warn(`${orange}--env ignored because output file is provided.${reset}`);
+    }
     const outputPath = resolveOutputPath(args[2], envName);
 
     if (schemaFlagIndex >= 0 && !schemaPath) {
       console.error(`${red}Missing schema file path${reset}`);
-      printHelp();
+      printHelp(false);
       process.exit(1);
     }
 
     if (!inputPath) {
       console.error(`${red}Missing input file${reset}`);
-      printHelp();
+      printHelp(false);
       process.exit(1);
     }
 
@@ -370,17 +378,20 @@ const runCli = () => {
   if (command === "encrypt-env") {
     handled = true;
     const inputPath = args[1];
+    if (args[2] && envName) {
+      console.warn(`${orange}--env ignored because output file is provided.${reset}`);
+    }
     const outputPath = resolveOutputPath(args[2], envName);
 
     if (schemaFlagIndex >= 0 && !schemaPath) {
       console.error(`${red}Missing schema file path${reset}`);
-      printHelp();
+      printHelp(false);
       process.exit(1);
     }
 
     if (!inputPath) {
       console.error(`${red}Missing input file${reset}`);
-      printHelp();
+      printHelp(false);
       process.exit(1);
     }
 
@@ -464,7 +475,7 @@ const runCli = () => {
 
   if (!handled) {
     console.error(`${red}Unknown command:${reset}`, command);
-    printHelp();
+    printHelp(false);
     process.exit(1);
   }
 };

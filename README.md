@@ -143,6 +143,9 @@ secure-config encrypt <input.json> [output.enc.json] [--schema schema.json] [--e
 secure-config encrypt-env <input.env> [output.enc.json] [--schema schema.json] [--env name]
 ```
 
+Note:
+- If you pass an explicit output file, `--env` is ignored.
+
 Help command:
 
 ```bash
@@ -178,6 +181,8 @@ Examples:
   MASTER_KEY=REPLACE_WITH_YOUR_MASTER_KEY secure-config encrypt-env .env config.enc.json
   MASTER_KEY=REPLACE_WITH_YOUR_MASTER_KEY secure-config encrypt config.json config.enc.json --schema schema.json
   MASTER_KEY=REPLACE_WITH_YOUR_MASTER_KEY secure-config encrypt config.json --env dev
+  MASTER_KEY=REPLACE_WITH_YOUR_MASTER_KEY secure-config encrypt config.json config.enc.json --env dev
+  Note: --env is ignored when output file is provided.
 ```
 
 ---
