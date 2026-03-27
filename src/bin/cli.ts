@@ -83,7 +83,7 @@ export const parseEnvSafe = (raw: string): SalesParkContract<Record<string, stri
     const lineNumber = index + 1;
     const line = lines[index].trim();
 
-    if (!line) {
+    if (!line || line.startsWith("#")) {
       continue;
     }
 

@@ -25,6 +25,19 @@ yarn add @salespark/secure-config
 npm i @salespark/secure-config
 ```
 
+Global CLI install:
+
+```bash
+yarn global add @salespark/secure-config
+# or
+npm i -g @salespark/secure-config
+```
+
+Windows note:
+
+- If `secure-config` is not found after global install, reopen the terminal or use `npm i -g`.
+- For `npx`, prefer: `npx -p @salespark/secure-config secure-config --help`.
+
 ---
 
 ## 🧠 Concept
@@ -77,10 +90,22 @@ Create a temporary `config.json`:
 MASTER_KEY=your_master_key secure-config encrypt config.json config.enc.json
 ```
 
+No install (npx):
+
+```bash
+MASTER_KEY=your_master_key npx @salespark/secure-config encrypt config.json config.enc.json
+```
+
 To encrypt a `.env` file:
 
 ```bash
 MASTER_KEY=your_master_key secure-config encrypt-env .env config.enc.json
+```
+
+No install (npx):
+
+```bash
+MASTER_KEY=your_master_key npx @salespark/secure-config encrypt-env .env config.enc.json
 ```
 
 This will generate:
