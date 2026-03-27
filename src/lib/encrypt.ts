@@ -9,6 +9,10 @@ type EncryptedPayload = {
   iv: string;
   authTag: string;
   content: string;
+  meta?: {
+    createdAt: string;
+    totalKeys: number;
+  };
 };
 
 type EncryptToFileOptions = {
@@ -16,6 +20,24 @@ type EncryptToFileOptions = {
   output: string;
   masterKey: string;
   schema?: SchemaField[];
+};
+
+const countKeys = (value: unknown): number => {
+  if (!value || typeof value !== "object") {
+    return 0;
+  }
+
+  if (Array.isArray(value)) {
+    return value.reduce((total, item) => total + countKeys(item), 0);
+  }
+
+  let total = 0;
+  for (const [_, entry] of Object.entries(value)) {
+    total += 1;
+    total += countKeys(entry);
+  }
+
+  return total;
 };
 
 /******************************************************************
@@ -55,6 +77,10 @@ function encrypt(data: unknown, masterKey: string, schema: SchemaField[] = []): 
         iv: iv.toString("base64"),
         authTag: authTag.toString("base64"),
         content: encrypted.toString("base64"),
+        meta: {
+          createdAt: new Date().toISOString(),
+          totalKeys: countKeys(data),
+        },
       },
     };
   } catch {

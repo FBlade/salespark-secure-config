@@ -10,12 +10,18 @@ const noColor = rawArgs.includes("--no-color");
 const force = rawArgs.includes("--force");
 const schemaFlagIndex = rawArgs.indexOf("--schema");
 const schemaPath = schemaFlagIndex >= 0 ? rawArgs[schemaFlagIndex + 1] : undefined;
+const envFlagIndex = rawArgs.indexOf("--env");
+const envName = envFlagIndex >= 0 ? rawArgs[envFlagIndex + 1] : undefined;
 const args = rawArgs.filter((arg, index) => {
-  if (arg === "--no-color" || arg === "--force" || arg === "--schema") {
+  if (arg === "--no-color" || arg === "--force" || arg === "--schema" || arg === "--env") {
     return false;
   }
 
   if (schemaFlagIndex >= 0 && index === schemaFlagIndex + 1) {
+    return false;
+  }
+
+  if (envFlagIndex >= 0 && index === envFlagIndex + 1) {
     return false;
   }
 
@@ -121,9 +127,18 @@ export const parseEnvSafe = (raw: string): SalesParkContract<Record<string, stri
  * History:
  * 27-03-2026: Created
  ******************************************************************/
-export const resolveOutputPath = (value?: string): string => {
+export const resolveOutputPath = (value?: string, environment?: string): string => {
   const trimmed = value?.trim();
-  return trimmed ? trimmed : "./config.enc.json";
+
+  if (trimmed) {
+    return trimmed;
+  }
+
+  if (environment) {
+    return `./${environment}.config.enc.json`;
+  }
+
+  return "./config.enc.json";
 };
 
 /******************************************************************
@@ -191,12 +206,14 @@ const printHelp = () => {
   console.log("  --no-color   Disable ANSI colors");
   console.log("  --force      Overwrite output file if it exists");
   console.log("  --schema     JSON file with required fields");
+  console.log("  --env        Prefix output with an environment name");
   console.log("");
   console.log(`${orange}Examples:${reset}`);
   console.log("  MASTER_KEY=your_key secure-config encrypt config.json config.enc.json");
   console.log("  yarn dlx secure-config encrypt config.json");
   console.log("  MASTER_KEY=your_key secure-config encrypt-env .env config.enc.json");
   console.log("  MASTER_KEY=your_key secure-config encrypt config.json config.enc.json --schema schema.json");
+  console.log("  MASTER_KEY=your_key secure-config encrypt config.json --env dev");
 };
 
 /******************************************************************
@@ -212,6 +229,12 @@ const runCli = () => {
     process.exit(command ? 0 : 1);
   }
 
+  if (envFlagIndex >= 0 && !envName) {
+    console.error(`${red}Missing environment name${reset}`);
+    printHelp();
+    process.exit(1);
+  }
+
   /******************************************************************
    * ##: Execute encrypt command for secure config CLI
    * Validates input, ensures MASTER_KEY, reads JSON file and encrypts output.
@@ -224,7 +247,7 @@ const runCli = () => {
   if (command === "encrypt") {
     handled = true;
     const inputPath = args[1];
-    const outputPath = resolveOutputPath(args[2]);
+    const outputPath = resolveOutputPath(args[2], envName);
 
     if (schemaFlagIndex >= 0 && !schemaPath) {
       console.error(`${red}Missing schema file path${reset}`);
@@ -321,7 +344,7 @@ const runCli = () => {
   if (command === "encrypt-env") {
     handled = true;
     const inputPath = args[1];
-    const outputPath = resolveOutputPath(args[2]);
+    const outputPath = resolveOutputPath(args[2], envName);
 
     if (schemaFlagIndex >= 0 && !schemaPath) {
       console.error(`${red}Missing schema file path${reset}`);

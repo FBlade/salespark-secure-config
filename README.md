@@ -139,8 +139,8 @@ console.log(result.data.mongo.uri);
 ## 🧰 CLI Usage
 
 ```bash
-secure-config encrypt <input.json> [output.enc.json] [--schema schema.json]
-secure-config encrypt-env <input.env> [output.enc.json] [--schema schema.json]
+secure-config encrypt <input.json> [output.enc.json] [--schema schema.json] [--env name]
+secure-config encrypt-env <input.env> [output.enc.json] [--schema schema.json] [--env name]
 ```
 
 Help command:
@@ -170,12 +170,14 @@ Options:
   --no-color   Disable ANSI colors
   --force      Overwrite output file if it exists
   --schema     JSON file with required fields
+  --env        Prefix output with an environment name
 
 Examples:
   MASTER_KEY=your_key secure-config encrypt config.json config.enc.json
   yarn dlx secure-config encrypt config.json
   MASTER_KEY=your_key secure-config encrypt-env .env config.enc.json
   MASTER_KEY=your_key secure-config encrypt config.json config.enc.json --schema schema.json
+  MASTER_KEY=your_key secure-config encrypt config.json --env dev
 ```
 
 ---

@@ -7,6 +7,10 @@ type EncryptedPayload = {
   iv: string;
   authTag: string;
   content: string;
+  meta?: {
+    createdAt: string;
+    totalKeys: number;
+  };
 };
 
 /******************************************************************
