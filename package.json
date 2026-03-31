@@ -26,9 +26,9 @@
   "author": "SalesPark",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^22.10.1",
-    "@vitest/coverage-v8": "^3.2.4",
-    "typescript": "^5.7.2",
-    "vitest": "^3.2.4"
+    "@types/node": "22.10.1",
+    "@vitest/coverage-v8": "3.2.4",
+    "typescript": "5.7.2",
+    "vitest": "3.2.4"
   }
 }
