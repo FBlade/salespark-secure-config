@@ -10,3 +10,6 @@ coverage
 AGENT.md
 PROMPT.md
 CONSTRAINTS.md
+
+# Local-only npm notes (not for the remote repo)
+NPM_TRANSITION.md

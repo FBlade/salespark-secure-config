@@ -1,3 +1,5 @@
+> **npm registry notice:** On **2 May 2026** (timezone **Europe/Lisbon**), this package will no longer be **publicly** installable from the npm registry and will become **restricted to the SalesPark npm organization**. Until then, already-published versions remain public. **No further public releases** or support for external consumers is planned — if you depend on this package, **fork** before that date.
+
 # @salespark/secure-config
 
 Secure, encrypted configuration loader for Node.js applications.
@@ -144,6 +146,7 @@ secure-config encrypt-env <input.env> [output.enc.json] [--schema schema.json] [
 ```
 
 Note:
+
 - If you pass an explicit output file, `--env` is ignored.
 
 Help command:
@@ -367,3 +370,8 @@ Use this package if:
 ## 📄 License
 
 MIT
+
+---
+
+_Document version: 2_  
+_Last update: 04-04-2026_
